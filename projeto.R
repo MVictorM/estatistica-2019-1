@@ -71,28 +71,31 @@ print(mediaBrienne())
 
 ######8-Faça uma função que retorne uma lista com os personagens que só apareceram 
 #em um único episódio na quarta (4ª) temporada.
+
 unicoquarta <- function() {
-  personagens = list() 
+  personagenslista <- character()
+  personagensunicos <- character()
   #lista contendo as informacoes da coluna Personagens
   episodios = gotdf[gotdf$Temporada == 4,][["Personagens"]]
+  #salva todos os personagens numa lista
   for(personagensepisodio in episodios){
-    divide = strsplit(personagensepisodio, ",")
-    print(typeof(divide))
+    divide = strsplit(personagensepisodio, ",")[[1]]
+    for(personagem in divide) {
+      personagenslista <- c(personagenslista, personagem)
     }
-
-  print(personagens)
+  }
+  #transforma em tabela, conta as ocorrências e se for igual a 1 adiciona a lista de unicos
+  personagensdf = table(personagenslista)
+  for(personagem in personagenslista) {
+    if(personagensdf[names(personagensdf)==personagem] == 1) {
+      personagensunicos <- c(personagensunicos, personagem)
+    }
+  }
+  #retorna lista de unicos
+  return(personagensunicos)
 }
-unicoquarta()
+print(unicoquarta())
 
-personagens = list() 
-#lista contendo as informacoes da coluna Personagens
-episodios = gotdf[gotdf$Temporada == 4,][["Personagens"]]
-for(personagensepisodio in episodios){
-  divide = strsplit(personagensepisodio, ",")
-  print(typeof(divide))
-}
-
-print(personagens)
 
 ######9-Faça uma função que dado o nome de um personagem, cria um histograma onde 
 #mostra a frequência de aparição desse personagem a cada temporada. Não esqueça de dar um título e fazer ele 
