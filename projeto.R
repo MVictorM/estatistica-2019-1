@@ -101,6 +101,34 @@ print(unicoquarta())
 #mostra a frequência de aparição desse personagem a cada temporada. Não esqueça de dar um título e fazer ele 
 #de forma colorida, facilitando a visualização. Um exemplo para o 
 #personagem Bran Stark(Isaac Hempstead) seria:
-histograma<- function(personagem) {
+histograma<- function(personagemBuscado) {
+  temporadas = 1:8
+  frequencias <- integer()
+  for (temporada in 1:8){
+    personagenslista <- character()
+    #lista contendo as informacoes da coluna Personagens
+    episodios = gotdf[gotdf$Temporada == temporada,][["Personagens"]]
+    #salva todos os personagens numa lista
+    for(personagensepisodio in episodios){
+      divide = strsplit(personagensepisodio, ",")[[1]]
+      for(personagem in divide) {
+        personagenslista <- c(personagenslista, personagem)
+      }
+    }
+    personagensdf = table(personagenslista)
+    frequencia = personagensdf[names(personagensdf) == personagemBuscado]
+    print(frequencia)
+    frequencias <- c(frequencias, frequencia)
+  }
+  frequenciasdf <- data.frame(temporadas, frequencias)
+  str(frequenciasdf)
   
+  ########
+  data <- structure(list(V1 = temporadas, 
+                         V2 = frequencias), 
+                    .Names = c("V1", "V2"), class = "data.frame")
+  
+  barplot(data$V2, data$V1, xlab="Temporada", ylab="Frequência", col= colors()[grep("sky",colors())],
+          main=paste("Frequência de aparições a cada temporada de ", personagemBuscado))
 }
+histograma('Tyrion Lannister(Peter Dinklage)')
