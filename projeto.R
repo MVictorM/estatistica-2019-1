@@ -49,7 +49,20 @@ print(notasmaiornove())
 #(de 1 até 8).
 menoremaior <- function() {
 
+  for( temp in 1:8){
+    episodios <- gotdf[gotdf$Temporada == temp,]
+    episodios <- episodios[order(episodios$Nota),]
+    print('-------')
+    print(paste("episodio com menor nota da temporada ", temp, ": "))
+    print(head(episodios,1))
+    menor <- head(episodios, 1)
+    maior <- tail(episodios, 1)
+    print(paste("episodio com maior nota da temporada ", temp, ": "))
+    print(tail(episodios,1))
+  }
 }
+
+menoremaior()
 
 ######6-Faça uma função que retorne qual a temporada com o menor desvio padrão na
 #audiência.
@@ -117,7 +130,6 @@ histograma<- function(personagemBuscado) {
     }
     personagensdf = table(personagenslista)
     frequencia = personagensdf[names(personagensdf) == personagemBuscado]
-    print(frequencia)
     frequencias <- c(frequencias, frequencia)
   }
   frequenciasdf <- data.frame(temporadas, frequencias)
@@ -131,4 +143,4 @@ histograma<- function(personagemBuscado) {
   barplot(data$V2, data$V1, xlab="Temporada", ylab="Frequência", col= colors()[grep("sky",colors())],
           main=paste("Frequência de aparições a cada temporada de ", personagemBuscado))
 }
-histograma('Tyrion Lannister(Peter Dinklage)')
+histograma('Jon Snow(Kit Harington)')
